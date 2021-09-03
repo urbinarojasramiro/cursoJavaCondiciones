@@ -26,6 +26,10 @@ public class Pizza {
 
     public Pizza() {
     }
+    
+    public int calcularTotalCompra(){
+        return this.boleta.getTotalCompra();
+    }
 
     public String getNombre() {
         return nombre;
