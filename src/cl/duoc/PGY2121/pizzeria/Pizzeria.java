@@ -40,7 +40,7 @@ public class Pizzeria {
                 precio = 8000;
                 break;
             case "Mediana":
-                precio = 6000;
+                precio = 6500;
                 break;
             case "Individual":
                 precio = 4000;
