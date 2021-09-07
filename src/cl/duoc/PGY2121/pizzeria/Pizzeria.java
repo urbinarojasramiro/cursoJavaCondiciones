@@ -5,10 +5,9 @@
  */
 package cl.duoc.PGY2121.pizzeria;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
-
-
-
 
 
 /**
@@ -21,43 +20,67 @@ public class Pizzeria {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Pizza pizza1 = new Pizza("pepperoni","Grande","delgada", null);
-        String nombre = pizza1.getNombre();
-        System.out.println("ud pidio una pizza: " + nombre);
-        System.out.println("ud pidio una pizza: " + pizza1.getNombre());
-        
-        int precio = 0;
-        
         Scanner s = new Scanner(System.in);
-        System.out.println("Ingrese el tamaño de la pizza: ");
-        String tamano2 = s.nextLine();
-        pizza1.setTamano(tamano2);
-        
-        System.out.println("usted ingresó tamaño pizza: " + tamano2);
-        
-        switch(tamano2){
-            case "Grande":
-                precio = 8000;
-                break;
-            case "Mediana":
-                precio = 6500;
-                break;
-            case "Individual":
-                precio = 4000;
-                break;
-            default:
-                precio = 3000;
+        List<Pizza> pizzas = new ArrayList<Pizza>();
+        int opcion = 0;
+        while(opcion != 5){
+            Pizza p = new Pizza();
+            System.out.println("1. Ingresar Pizza");
+            System.out.println("5. Salir");
+            opcion = s.nextInt();
+            s.nextLine(); 
+            if(opcion == 1){
+                System.out.println("Ingrese el nombre de la pizza: ");
+                String nombreInput = s.nextLine();
+                
+                p.setNombre(nombreInput);
+                System.out.println("ud pidio una pizza: " + p.getNombre());
+                
+                System.out.println("Ingrese el tamaño");
+                String tamano = s.nextLine();
+                p.setTamano(tamano);
+                boolean validacionMasa = false;
+                while(!validacionMasa){
+                    System.out.println("Ingrese el tipo de masa:");
+                    String masa = s.nextLine();
+                    if("Delgada".equals(masa) || "Normal".equals(masa)){
+                        p.setMasa(masa);
+                        validacionMasa = true;
+                    }else{
+                        System.out.println("El tipo de masa no es valido, intente nuevamente!");
+                    }
+                    
+                }
+                int precio = 0;
+                switch(p.getTamano()){
+                    case "Grande":
+                        precio = 8000;
+                        break;
+                    case "Mediana":
+                        precio = 6500;
+                        break;
+                    case "Individual":
+                        precio = 4000;
+                        break;
+                    default:
+                        precio = 3000;
+                }
+                
+                Boleta boleta = new Boleta();
+                boleta.setTotalCompra(precio);
+                p.setBoleta(boleta);
+                pizzas.add(p);
+            }
+            
+        }
+        System.out.println("Usted compro las siguientes pizzas:");
+        int totalCompra = 0;
+        for (Pizza pizza : pizzas) {
+            System.out.println(pizza.getNombre());
+            totalCompra = totalCompra + pizza.calcularTotalCompra();
         }
         
-        System.out.println("Usted debe pagar: " + precio);
-        Boleta boleta = new Boleta();
-        boleta.setNumeroBoleta(123);
-        boleta.setTotalCompra(precio);
-        pizza1.setBoleta(boleta);
-        
-        int total = pizza1.calcularTotalCompra();
-        
-        System.out.println("El total de su compra es: " + total);
+        System.out.println("El total de su compra es: " + totalCompra);
 
     }
     
